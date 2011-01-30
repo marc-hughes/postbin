@@ -60,6 +60,13 @@ class Post(db.Model):
     def id(self):
         return baseN(abs(hash(self.created)), 36)[0:6]
 
+    def curl_command( self ):            
+      body_part = "-d \"%s\"" % self.body            
+      headers_to_ignore = ["Host", "Content-Length", "Accept", "User-Agent" ]
+      headers = filter( lambda x: not x in headers_to_ignore, self.headers )
+      header_part = reduce( lambda x,y: "%s -H \"%s: %s\"" % (x,y, self.headers[y]) , headers, "")
+      return "curl %s %s" % (body_part, header_part)
+      
     def __iter__(self):
         out = []
         if self.form_data:

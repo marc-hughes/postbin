@@ -3,6 +3,7 @@
 {% block header %}<link href="/{{ bin.name }}/feed" type="application/atom+xml" rel="alternate" title="Feed of PostBin {{ bin.name }}" />{% endblock %}
 {% block content %}
   <p>All POST requests to this URL are logged for you to see here, sorted newest to oldest.</p>
+  <p><a href="javascript:void(0)" onclick="$('.curl_command').toggle()">Toggle Curl Commands</a></p>
     {% for post in posts %}
       <div class="post">
         <a href="#{{ post.id }}" title="A unique ID for this request">#{{ post.id }}</a> @ 
@@ -33,7 +34,13 @@
           </td></tr>
         {% endfor %}
       </table>
+
+      <div class="curl_command">
+      {{post.curl_command}} http://your-url
+      </div>
+      
     </div>
+    
     {% endfor %}
 
   <a href="/">&larr; Home</a>
